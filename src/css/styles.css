@@ -6,11 +6,10 @@ body {
 
 .slider-wrapper {
     background: #fff;
-    width: 60%;
+    width: 80%;
     position: relative;
-    height: 20%;
-    margin: 10%;
-    padding: 10%;
+    height: 10vh;
+    padding: 5%;
 }
 
 

@@ -43,7 +43,7 @@ class CustomRangeSlider {
     }
 
     calculateLeftValueInPercentage(clientX) {
-        return Math.round([(clientX - that.sliderOffsetLeft) / that.sliderOffsetWidth] * 100) - that.thumbWidth;
+        return Math.abs([(clientX - that.sliderOffsetLeft) / that.sliderOffsetWidth] * 100) - that.thumbWidth;
     }
 
     onMouseUp(e) {
