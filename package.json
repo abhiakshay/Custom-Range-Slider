@@ -1,0 +1,28 @@
+{
+  "name": "custom-range-slider",
+  "version": "1.0.0",
+  "description": "custom range slider ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhiakshay/Custom-Range-Slider.git"
+  },
+  "keywords": [
+    "range",
+    "slider",
+    "\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+    "\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dcustom",
+    "range",
+    "slider",
+    "html5"
+  ],
+  "author": "Akshay Pathare",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abhiakshay/Custom-Range-Slider/issues"
+  },
+  "homepage": "https://github.com/abhiakshay/Custom-Range-Slider#readme"
+}
