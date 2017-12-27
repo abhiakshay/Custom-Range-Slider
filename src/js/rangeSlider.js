@@ -80,7 +80,7 @@ class CustomRangeSlider {
         let X = e.clientX || e.targetTouches[0].pageX;
         that.update(X);
         that.currentIndex = that.findClosestValueFromArray(that.position, that.pointsList);
-        that.callBack(that.pointsList[that.currentIndex],that.currentIndex);
+        that.callBack(that.valueList[that.currentIndex],that.currentIndex);
         //that.updateThumbPositionAndFillSlider();
         that.sliderMove = true;
     }
@@ -125,7 +125,7 @@ class CustomRangeSlider {
         that.currentIndex = that.findClosestValueFromArray(that.position, that.pointsList);
         that.thumb.style.left = that.pointsList[that.currentIndex]+'%';
         that.sliderFill.style.width = that.pointsList[that.currentIndex]<0?0:that.pointsList[that.currentIndex]+'%';
-        that.callBack(that.pointsList[that.currentIndex],that.currentIndex);
+        that.callBack(that.valueList[that.currentIndex],that.currentIndex);
     }
 
     findClosestValueFromArray(val,array){
