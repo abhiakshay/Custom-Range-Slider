@@ -55,6 +55,25 @@ class CustomRangeSlider {
             that.slider.addEventListener('mousemove', this.onMouseMove, false);
             that.slider.addEventListener('mouseup', this.onMouseUp, false);
         }
+
+        that.slider.addEventListener('resize', this.onWindowResize, false);
+        if (window.addEventListener) {
+            window.addEventListener('orientationchange', that.onOrientationChange, false);
+        } else if (window.attachEvent) {
+            window.attachEvent('onorientationchange', that.onOrientationChange);
+        }
+    }
+
+    onWindowResize(e){
+        that.setupSliderWithValueList();
+        that.initSlider();
+    }
+
+    onOrientationChange(){
+        setTimeout(function () {
+            that.setupSliderWithValueList();
+            that.initSlider();
+        },0)
     }
 
     initSlider(val){
@@ -71,6 +90,7 @@ class CustomRangeSlider {
         that.sliderOffsetLeft = that.getOffsetLeft(that.slider).left;
         that.sliderOffsetWidth = that.slider.offsetWidth;
         that.thumbWidth = that.getThumbWidth();
+        that.update(X);
         that.mouseDown = true;
     }
 
