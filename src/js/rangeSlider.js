@@ -17,8 +17,23 @@ class CustomRangeSlider {
         that.slider.innerHTML = sliderTemplate;
         that.thumb = document.getElementById(this.id + 'thumb');
         that.sliderFill = document.getElementById(this.id + 'fill');
-        this.addEvents();
+        that.setupSliderWithValueList();
+        that.addEvents();
         that.mouseDown = false;
+        that.initSlider();
+    }
+
+    getThumbWidth(){
+        return that.thumb.offsetWidth / that.slider.offsetWidth * 100 / 2;
+    }
+
+    setupSliderWithValueList(){
+        that.pointsList = [];
+        let diff = Math.floor(100/(that.valueList.length-1));
+        that.thumbWidth = that.getThumbWidth();
+        for(var i=0;i<that.valueList.length;i++){
+            that.pointsList.push((diff)*i-that.thumbWidth);
+        }
     }
 
     addEvents() {
@@ -42,11 +57,20 @@ class CustomRangeSlider {
         }
     }
 
+    initSlider(val){
+        that.currentIndex = that.valueList.indexOf(val) || 0;
+        that.currentIndex = that.currentIndex < 0 ? 0 : that.currentIndex;
+        that.position =  that.pointsList[that.currentIndex];
+        that.thumb.style.left = that.pointsList[that.currentIndex]+'%';
+        that.sliderFill.style.width = that.pointsList[that.currentIndex]+'%';
+    }
+
     onMouseDown(e) {
         e.stopImmediatePropagation();
+        let X = e.clientX || e.targetTouches[0].pageX;
         that.sliderOffsetLeft = that.getOffsetLeft(that.slider).left;
         that.sliderOffsetWidth = that.slider.offsetWidth;
-        that.thumbWidth = that.thumb.offsetWidth / that.slider.offsetWidth * 100 / 2;
+        that.thumbWidth = that.getThumbWidth();
         that.mouseDown = true;
     }
 
@@ -54,10 +78,11 @@ class CustomRangeSlider {
         //e.stopImmediatePropagation();
         if (!that.mouseDown) return;
         let X = e.clientX || e.targetTouches[0].pageX;
-        let pecentLeft = that.calculateLeftValueInPercentage(X);
-        if (pecentLeft >= 0 && pecentLeft <= 100) {
-            that.thumb.style.left = that.calculateLeftValueInPercentage(X) + '%';
-        }
+        that.update(X);
+        that.currentIndex = that.findClosestValueFromArray(that.position, that.pointsList);
+        that.callBack(that.pointsList[that.currentIndex],that.currentIndex);
+        //that.updateThumbPositionAndFillSlider();
+        that.sliderMove = true;
     }
 
     calculateLeftValueInPercentage(clientX) {
@@ -66,8 +91,11 @@ class CustomRangeSlider {
 
     onMouseUp(e) {
         e.stopImmediatePropagation();
+        let X = e.clientX || e.targetTouches[0].pageX;
         that.mouseDown = false;
-        if(that.callBack)that.callBack(that.valueList.toString());
+        that.sliderMove = false;
+        that.update(X);
+        that.updateThumbPositionAndFillSlider();
     }
 
     getOffsetLeft(element) {
@@ -77,6 +105,27 @@ class CustomRangeSlider {
             element = element.offsetParent;
         }
         return { left: x };
+    }
+
+    update(x){
+        that.position= x - that.sliderOffsetLeft;
+        if(that.slider.getBoundingClientRect().x) that.position = Math.round((that.position/ that.slider.getBoundingClientRect().width)*100);
+        else that.position = Math.round((that.position/ that.slider.offsetWidth)*100);
+        //that.position-= that.thumbWidth;
+
+        if(that.position<0 || that.position>100){
+            that.updateThumbPositionAndFillSlider();
+            return;
+        }
+        that.thumb.style.left = that.position+'%';
+        that.sliderFill.style.width = that.position+'%'
+    }
+
+    updateThumbPositionAndFillSlider(){
+        that.currentIndex = that.findClosestValueFromArray(that.position, that.pointsList);
+        that.thumb.style.left = that.pointsList[that.currentIndex]+'%';
+        that.sliderFill.style.width = that.pointsList[that.currentIndex]<0?0:that.pointsList[that.currentIndex]+'%';
+        that.callBack(that.pointsList[that.currentIndex],that.currentIndex);
     }
 
     findClosestValueFromArray(val,array){

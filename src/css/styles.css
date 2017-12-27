@@ -44,7 +44,7 @@ body {
 }
 
 .range-slider .slider-fill {
-    background: #fff;
+    background: blue;
     width: 0%;
 }
 
